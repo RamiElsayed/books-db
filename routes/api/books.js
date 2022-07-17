@@ -1,50 +1,19 @@
-const router = require('express').Router();
+const { Router } = require('express');
 const Book = require('../../models/Book');
 
-// TODO: Add a comment describing the purpose of this route
-router.get('/', (req, res) => {
-  // TODO: Add a comment describing the functionality of this method
-  Book.findAll().then((bookData) => {
-    res.json(bookData);
-  });
-});
+const router = Router();
 
 // TODO: Add a comment describing the purpose of this route
-router.get('/paperbacks', (req, res) => {
-  Book.findAll({
-    // TODO: Add a comment describing the functionality of this property
-    order: ['title'],
-    // TODO: Add a comment describing the functionality of this property
-    where: {
-      is_paperback: true
-    },
-    attributes: {
-      // TODO: Add a comment describing the functionality of this property
-      exclude: ['is_paperback', 'edition']
-    }
-  }).then((bookData) => {
-    res.json(bookData);
-  });
-});
+router.get('/', getBooks);
 
 // TODO: Add a comment describing the purpose of this route
-router.get('/:id', (req, res) => {
-  // TODO: Add a comment describing the functionality of this method
-  Book.findByPk(req.params.id).then((bookData) => {
-    res.json(bookData);
-  });
-});
+router.get('/paperbacks', getPaperbacks);
+
+// TODO: Add a comment describing the purpose of this route
+router.get('/:id', getBookById);
 
 // CREATE a book
-router.post('/', (req, res) => {
-  Book.create(req.body)
-    .then((newBook) => {
-      res.json(newBook);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
+router.post('/', createBook);
 
 // CREATE multiple books
 router.post('/seed', (req, res) => {
