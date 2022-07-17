@@ -1,58 +1,6 @@
 const { triggerAsyncId } = require("async_hooks");
 const Book = require("../../models/Book");
 
-const books = [
-  {
-    title: "Make It Stick: The Science of Successful Learning",
-    author: "Peter Brown",
-    isbn: "978-0674729018",
-    pages: 336,
-    edition: 1,
-    is_paperback: false,
-  },
-  {
-    title:
-      "Essential Scrum: A Practical Guide to the Most Popular Agile Process",
-    author: "Kenneth Rubin",
-    isbn: "978-0137043293",
-    pages: 500,
-    edition: 1,
-    is_paperback: true,
-  },
-  {
-    title:
-      "White Fragility: Why It's So Hard for White People to Talk About Racism",
-    author: "Robin DiAngelo",
-    isbn: "978-0807047415",
-    pages: 192,
-    edition: 2,
-    is_paperback: true,
-  },
-  {
-    title: "The Pragmatic Programmer: Your Journey To Mastery",
-    author: "David Thomas",
-    isbn: "978-0135957059",
-    pages: 352,
-    edition: 2,
-    is_paperback: false,
-  },
-  {
-    title: "The Art of Computer Programming, Vol. 1: Fundamental Algorithms",
-    author: "Donald Knuth",
-    isbn: "978-0201896831",
-    pages: 672,
-    edition: 3,
-    is_paperback: false,
-  },
-  {
-    title: "Algorithms of Oppression: How Search Engines Reinforce Racism",
-    author: "Safiya Umoja Noble",
-    isbn: "978-1479837243",
-    pages: 256,
-    edition: 1,
-    is_paperback: true,
-  },
-];
 
 const cleanUpPayload = (payload) => {
   const editableFields = [
@@ -75,7 +23,7 @@ const cleanUpPayload = (payload) => {
   }, {});
 
 };
-const getBooks = async (req, res) => {
+const getBooks = async(req, res) => {
   try {
     const books = await Book.findAll();
 
@@ -86,7 +34,7 @@ const getBooks = async (req, res) => {
   }
 };
 
-const getPaperbacks = async (req, res) => {
+const getPaperbacks = async(req, res) => {
   try {
     const books = await Book.findAll({
       where: {
@@ -104,9 +52,9 @@ const getPaperbacks = async (req, res) => {
   }
 };
 
-const getBookById = (req, res) => {
+const getBookById = async(req, res) => {
   try {
-    const book = Book.findByPk(req.params.id);
+    const book = await Book.findByPk(req.params.id);
     if (book) {
       return res.json(book);
     }
@@ -132,16 +80,6 @@ const createBook = async (req, res) => {
   }
 };
 
-const seedBooks = async (req, res) => {
-  try {
-    await Book.bulkCreate(books);
-
-    res.send({ success: true });
-  } catch (error) {
-    console.log(`[ERROR]: failed to seed Db | ${error.message}`);
-    return res.status(500).json({ success: false, error: error.message });
-  }
-};
 
 const updateBookById = async(req, res) => {
   try {
@@ -182,7 +120,6 @@ module.exports = {
   getPaperbacks,
   getBookById,
   createBook,
-  seedBooks,
   updateBookById,
   deleteBookById,
 };
