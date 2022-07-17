@@ -61,7 +61,7 @@ const getBooks = async(req, res) => {
     }
   }
 
-  const getPaperbacks = (req, res) => {
+  const getPaperbacks = async(req, res) => {
     try {
         const books = await Book.findAll({
             where: {
@@ -93,7 +93,7 @@ const getBooks = async(req, res) => {
     }
   }
 
-  const createBook = async (req, res) => {
+  const createBook = async(req, res) => {
 
     try {
     const book = req.body;
@@ -108,7 +108,7 @@ const getBooks = async(req, res) => {
     }
   }
 
-  const seedBooks = (req, res) => {
+  const seedBooks = async(req, res) => {
     
     try {
         await Book.bulkCreate(books)
