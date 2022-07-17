@@ -23,6 +23,7 @@ const cleanUpPayload = (payload) => {
   }, {});
 
 };
+
 const getBooks = async(req, res) => {
   try {
     const books = await Book.findAll();
