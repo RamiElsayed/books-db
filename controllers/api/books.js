@@ -2,28 +2,6 @@ const { triggerAsyncId } = require("async_hooks");
 const Book = require("../../models/Book");
 
 
-const cleanUpPayload = (payload) => {
-  const editableFields = [
-    "title",
-    "author",
-    "isbn",
-    "pages",
-    "edition",
-    "is_paperback",
-  ];
-
- return  Object.entries(payload).reduce((acc, [key, value]) => {
-    if (editableFields.includes(key)) {
-      return {
-        ...acc,
-        [key]: value
-      }
-    }
-    return acc;
-  }, {});
-
-};
-
 const getBooks = async(req, res) => {
   try {
     const books = await Book.findAll();
