@@ -1,6 +1,12 @@
 const { triggerAsyncId } = require("async_hooks");
 const Book = require("../../models/Book");
 
+const getPayloadWithValidFieldsOnly = (validFields, payload) =>
+  Object.entries(payload).reduce(
+    (acc, [key, value]) =>
+      validFields.includes(key) ? { ...acc, [key]: value } : acc,
+    {}
+  );
 
 const getBooks = async (req, res) => {
   try {
