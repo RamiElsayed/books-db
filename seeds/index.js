@@ -21,7 +21,7 @@ const seedDatabase = async() => {
     process.exit(0);
     
   } catch (error) {
-    console.log(`[ERROR]: Database seed failed" | ${ error.message }`);
+    console.log(`[ERROR]: Database seed failed | ${error.message}`);
   }
 };
 
