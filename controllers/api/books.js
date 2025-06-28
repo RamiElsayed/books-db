@@ -1,4 +1,3 @@
-const { triggerAsyncId } = require("async_hooks");
 const Book = require("../../models/Book");
 
 const getPayloadWithValidFieldsOnly = (validFields, payload) =>
@@ -52,14 +51,17 @@ const getBookById = async (req, res) => {
   }
 };
 
+const cleanUpPayload = (payload) =>
+  getPayloadWithValidFieldsOnly(
+    ["title", "author", "isbn", "pages", "edition", "is_paperback"],
+    payload
+  );
+
 const createBook = async (req, res) => {
   try {
-    const payload = getPayloadWithValidFieldsOnly(
-      ["title", "author", "isbn", "pages", "edition", "is_paperback"],
-      req.body
-    );
+    const payload = cleanUpPayload(req.body);
 
-    if (Object.keys(payload).length !== 3) {
+    if (Object.keys(payload).length < 3) {
       return res
         .status(400)
         .json({ message: "Please provide a valid request" });
@@ -67,7 +69,7 @@ const createBook = async (req, res) => {
 
     await Book.create(payload);
 
-    return res.json({ message: "Successfully created user" });
+    return res.json({ message: "Successfully created book" });
   } catch (error) {
     console.log(`[ERROR]: failed to create book | ${error.message}`);
     return res.status(500).json({ success: false, error: error.message });
